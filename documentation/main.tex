@@ -1,0 +1,149 @@
+\documentclass[author-year, prd, amsmath, amssymb, longbibliography, floatfix, reprint, superscriptaddress, a4]{revtex4-1}
+
+\usepackage{bm}
+\usepackage[toc, page]{appendix}
+\usepackage[alsoload=hep]{siunitx}
+\usepackage{tikzscale}
+\usepackage{pgfplotstable}
+\usepackage[mode=buildnew]{standalone}
+\usepackage{bigints}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\usepackage{tensor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xfrac}
+\usepackage[
+	top    = 1.95cm,
+	bottom = 1.9cm,
+	left   = 1.5cm,
+	right  = 1.5cm]
+{geometry}
+
+\definecolor{color1}{RGB}{202,0,32}
+\definecolor{color2}{RGB}{244,165,130}
+\definecolor{color3}{RGB}{146,197,222}
+\definecolor{color4}{RGB}{5,113,176}
+
+\hypersetup{
+	colorlinks,
+	linkcolor={color4},
+	citecolor={color4},
+	urlcolor={color4}
+}
+
+\AtBeginDocument{
+	\heavyrulewidth=.08em
+	\lightrulewidth=.05em
+	\cmidrulewidth=.03em
+	\belowrulesep=.65ex
+	\belowbottomsep=0pt
+	\aboverulesep=.4ex
+	\abovetopsep=0pt
+	\cmidrulesep=\doublerulesep
+	\cmidrulekern=.5em
+	\defaultaddspace=.5em
+}
+
+\pgfplotsset{compat=1.15}
+
+\newcommand{\vect}[1]{\bm{\mathrm{#1}}}
+
+\newcommand{\rmi}{\mathrm{i} \mkern1mu} %% roman "i"
+\newcommand{\dd}{\textrm{d}}
+\newcommand{\np}[1]{^{\!\!#1}}
+%\newcommand{\cn}{\hspace*{-0.75pt}\mathsc{N}\hspace*{-0.75pt}}
+\DeclareMathOperator{\arcsec}{arcsec}
+
+\newcommand{\G}{\Gamma}
+\newcommand{\e}{\epsilon}
+\newcommand{\s}[1][]{%
+	\ifthenelse{\equal{#1}{}}{S(\Theta)}{S^{#1}(\Theta)}%
+}
+\newcommand{\ssqrt}{\sqrt{\e (2-\e) + (1-\e)^{2}\s[2]}}
+\newcommand{\eln}{\ln\!\left[\frac{2 - \e}{\e}\right]}
+\newcommand{\fln}{\ln\!\left[2 - \e\right]}
+\newcommand{\gln}{\ln\!\left[\e\right]}
+\newcommand{\sln}{\ln\!\left[\frac{\ssqrt + (1-\e)\s}{\sqrt{\e (2-\e)}}\right]}
+\newcommand{\rln}{\ln\!\left[(2-\e)-2(1-\e)\s[2]\right]}
+\newcommand{\tln}{\ln\!\left[\e+2(1-\e)\s[2]\right]}
+\newcommand{\lns}{\ln\!\left[\s\right]}
+
+\newcommand*\pFqskip{8mu}
+\catcode`,\active
+\newcommand*\pFq{\begingroup
+        \catcode`\,\active
+        \def ,{\mskip\pFqskip\relax}%
+        \dopFq
+}
+\catcode`\,12
+\def\dopFq#1#2#3#4#5{%
+        {}_{#1}F_{#2}\biggl(\displaystyle {\genfrac{}{}{0pt}{0}{#3}{#4}};#5\biggr)%
+        \endgroup
+}
+
+\ExplSyntaxOn
+\DeclareExpandableDocumentCommand{\RepQuad}{m}
+{\int_compare:nT { #1 > 0 }
+	{\quad \prg_replicate:nn { #1 - 1 } {\quad}}}
+\ExplSyntaxOff
+
+\newcommand{\mathsc}[1]{\mbox{\tiny{\(#1\)}}}
+
+\renewcommand{\thetable}{\arabic{table}}
+
+\newcommand{\dm}[1]{{\color{red}#1}}
+   
+\makeatletter 
+	\renewcommand{\fnum@figure}{Fig.~\thefigure}
+\makeatother
+
+\makeatletter 
+	\renewcommand{\fnum@table}{Table~\thetable}
+\makeatother
+
+\allowdisplaybreaks[4]
+
+\sisetup{mode=math, range-phrase = {\text{~--~}}}
+
+\bibliographystyle{aipauth4-1}
+
+
+\begin{document}
+
+%\preprint{AIP/123-QED}
+
+\title[Sky tesselation]{Sky tesselation}
+
+\author{Deyan P. Mihaylov}
+\email{deyan@aei.mpg.de}
+
+\maketitle
+
+\section{Icosahedron}
+The vertices of an icosahedron centered at the origin and with circumradius 1 are:
+\begin{subequations}
+    \begin{align}
+    V_{1} &= (0, 0, 1) \\
+    V_{2} &= (0, 0, -1) \\
+    V_{3} &= \left(\frac{2}{\sqrt{5}}, 0, \frac{1}{\sqrt{5}}\right) \\
+    V_{4} &= \left(-\frac{2}{\sqrt{5}}, 0, -\frac{1}{\sqrt{5}}\right) \\
+    V_{5} &= \left(-\frac{5+\sqrt{5}}{10}, \sqrt{\frac{5-\sqrt{5}}{10}}, \frac{1}{\sqrt{5}}\right) \\
+    V_{6} &= \left(-\frac{5+\sqrt{5}}{10}, -\sqrt{\frac{5-\sqrt{5}}{10}}, \frac{1}{\sqrt{5}}\right) \\
+    V_{7} &= \left(\frac{5+\sqrt{5}}{10}, \sqrt{\frac{5-\sqrt{5}}{10}}, -\frac{1}{\sqrt{5}}\right) \\
+    V_{8} &= \left(\frac{5+\sqrt{5}}{10}, -\sqrt{\frac{5-\sqrt{5}}{10}}, -\frac{1}{\sqrt{5}}\right) \\
+    V_{9} &= \left(\frac{5-\sqrt{5}}{10}, \sqrt{\frac{5+\sqrt{5}}{10}}, \frac{1}{\sqrt{5}}\right) \\
+    V_{10} &= \left(\frac{5-\sqrt{5}}{10}, -\sqrt{\frac{5+\sqrt{5}}{10}}, \frac{1}{\sqrt{5}}\right) \\
+    V_{11} &= \left(-\frac{5-\sqrt{5}}{10}, \sqrt{\frac{5+\sqrt{5}}{10}}, -\frac{1}{\sqrt{5}}\right) \\
+    V_{12} &= \left(-\frac{5-\sqrt{5}}{10}, -\sqrt{\frac{5+\sqrt{5}}{10}}, -\frac{1}{\sqrt{5}}\right)
+    \end{align}
+\end{subequations}
+
+\section{Orthographic projection}
+
+\section{Constructing finer tesselations}
+
+
+
+
+\end{document}
