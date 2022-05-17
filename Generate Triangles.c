@@ -75,6 +75,10 @@ struct triangle row_of_triangles (struct pos *A, struct pos *B, int b) {
 
 
 // MAIN FUNCTION
+
+/* Given an equilateral triangle that lies on the sphere, and a positive integer n >= 2 , splits the triangle by an n-partition to create a 
+list of n*n congruent sub-triangles and projects them into the sphere
+
 // n is defined as the number of segments the sides will be split into. For example, to split a single triangle into 4, we would let n = 2.
 
 /* The function does not return ALL the triangles in the partition, only the smallest ones. For example, when n = 3, the function would 
