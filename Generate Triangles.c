@@ -8,21 +8,15 @@ struct pos {
     double y;
     double z;
 };
+
+// For our purposes, this file will only work effectively if all triangles are equilateral
 struct triangle {
   struct pos A;
   struct pos B;
   struct pos C;
 };
-struct pos scale_norm (struct pos A) {
-  double norm = A.x * A.x + A.y * A.y + A.z * A.z;
-  norm = sqrt(norm);
-  struct pos B;
-  B.x = A.x/norm;
-  B.y = A.y/norm;
-  B.z = A.z/norm;
-  return B;
-  
-}
+
+// Adds vectors A and B
 struct pos add_vector (struct pos A, struct pos B) {
   struct pos C;
   C.x = A.x + B.x;
@@ -30,6 +24,8 @@ struct pos add_vector (struct pos A, struct pos B) {
   C.z = A.z + B.z;
   return C;
 }
+
+// Scales a vector by x
 struct pos scale_vector (struct pos A, double x) {
   struct pos C;
   C.x = A.x * x;
@@ -37,6 +33,15 @@ struct pos scale_vector (struct pos A, double x) {
   C.z = A.z * x;
   return C;
 }
+
+// Scales a vector to a size of 1
+struct pos scale_norm (struct pos A) {
+  double norm = A.x * A.x + A.y * A.y + A.z * A.z;
+  norm = sqrt(norm);
+  return scale_vector (A, 1/norm);
+}
+
+// Consumes a triangle, then projects it into the sphere and curves it
 struct triangle curve_triangle (struct pos A, struct pos B, struct pos C) {
   struct triangle sub_equilateral;
   sub_equilateral.A = scale_norm(A);
@@ -44,6 +49,8 @@ struct triangle curve_triangle (struct pos A, struct pos B, struct pos C) {
   sub_equilateral.C = scale_norm(C);
   return sub_equilateral;
 }
+
+// Given line AB, splits it into m midpoints (including the ends)
 struct pos list_midpoints (struct pos A, struct pos B, int m) {
   struct pos *M = malloc(m * (sizeof (struct pos)));
   struct pos A_to_B;
@@ -55,6 +62,8 @@ struct pos list_midpoints (struct pos A, struct pos B, int m) {
   }
   return *M;
 };
+
+// Given 2 parallel lines split into b and b + 1 midpoints, produces a list of triangles that can be made
 struct triangle row_of_triangles (struct pos *A, struct pos *B, int b) {
   struct triangle *S = malloc(b * (sizeof (struct triangle)));
   for (int i = 0; i < b; i++) {
@@ -62,8 +71,15 @@ struct triangle row_of_triangles (struct pos *A, struct pos *B, int b) {
   }
   return *S;
 }
+
+
+// MAIN FUNCTION
 // n is defined as the number of segments the sides will be split into. For example, to split a single triangle into 4, we would let n = 2.
-// The function does not return ALL the triangles in the partition, only the smallest ones. For example, when n = 3, the function would only return the 9 smallest sub-triangles instead of 13 of them. (You may be familiar with the old math puzzle where you are presented with a diagram and asked to FiNd AlL tHe TrIaNgLeS - This function DOES NOT solve such questions)
+
+/* The function does not return ALL the triangles in the partition, only the smallest ones. For example, when n = 3, the function would 
+only return the 9 smallest sub-triangles instead of 13 of them. (You may be familiar with the old math puzzle where you 
+are presented with a diagram and asked to FiNd AlL tHe TrIaNgLeS - This function DOES NOT solve such questions)
+*/
 struct triangle* list_of_triangles (struct pos A, struct pos B, struct pos C, int n) {
   int triangle_counter = 0;
   struct triangle *ALL = malloc(n * n * (sizeof (struct triangle)));
@@ -94,6 +110,7 @@ struct triangle* list_of_triangles (struct pos A, struct pos B, struct pos C, in
   return ALL;
 };
 int main(void) {
+  // More tests required
   // Tests:
   struct pos *A1 = malloc(sizeof (struct pos));
   struct pos *A2 = malloc(sizeof (struct pos));
