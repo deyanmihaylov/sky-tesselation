@@ -51,6 +51,7 @@ struct triangle curve_triangle (struct pos A, struct pos B, struct pos C) {
 }
 
 // Given line AB, splits it into m midpoints (including the ends)
+// Example: list_midpoints ((0,0,0), (3,3,0), 4) returns { (0,0,0), (1,1,0), (2,2,0), (3,3,0) }
 struct pos list_midpoints (struct pos A, struct pos B, int m) {
   struct pos *M = malloc(m * (sizeof (struct pos)));
   struct pos A_to_B;
@@ -63,7 +64,7 @@ struct pos list_midpoints (struct pos A, struct pos B, int m) {
   return *M;
 };
 
-// Given 2 parallel lines split into b and b + 1 midpoints, produces a list of triangles that can be made
+// Given 2 parallel lines split into b and b + 1 midpoints, produces a list of b triangles that can be made
 struct triangle row_of_triangles (struct pos *A, struct pos *B, int b) {
   struct triangle *S = malloc(b * (sizeof (struct triangle)));
   for (int i = 0; i < b; i++) {
