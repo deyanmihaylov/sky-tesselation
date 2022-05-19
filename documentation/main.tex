@@ -140,7 +140,7 @@ The vertices of an icosahedron centered at the origin and with circumradius 1 ar
 \end{subequations}
 
 \section{Tasks}
-\begun{itemize}
+\begin{itemize}
 \item If we have a unit sphere centered on the origin \(O\) and 2 points \(P_{1,2} = (x_{1,2}, y_{1,2}, z_{1,2})\) on it, find the
 Cartesian equation of the great circle which passes through both of these points.
 
@@ -155,13 +155,24 @@ If the ray \(\vec{OM}\) intersects the sphere at point \(Q\), find the coordinat
 
 \item Take an equilateral triangle \(ABC\), divide it in smaller equilateral triangles by dividing its sides into \(n = 2, 3, 4, ...\) smaller segments.
 
-\item Take our icosahedron from before. For \(n = 2\), on each face, construct smaller \(n^{2}\) smaller equilateral triangles. Find the projections of the vertices triangles onto the unit sphere. Record the vertices and faces of the new polyhedron in a file. Repeat for \(n > 2\).
+\item Take our icosahedron from before. For \(n = 2\), on each face, construct smaller \(n^{2}\) smaller equilateral triangles. Find the projections of the vertices triangles onto the unit sphere. Record the vertices and faces of the new polyhedron in a file. Repeat for all \(n <= 50\).
+
+\item For each of the grids in the previous task, compute also the coordinates of the centroids of each triangle face, along with their projections on the sphere. Store these in the same files.
+
+\item Find the (approximate) area of a face of the new polyhedron as a function of \(n\).
+
+\item Find the (approximate) area of a spherical triangle formed by the projection of a face of the polyhedron onto the unit sphere. For what \(n = \tilde{n}\) is this area less than \(1 \deg^{2}\)?
+
+\item Find the area factor as a function of \(n\):
+$$F_{A}(n) = \frac{A_{n}}{4 \pi}$$
 
 \item Find the volume factor as a function of \(n\):
 $$F_{V}(n) = \frac{V_{n}}{4 \pi / 3}$$
 
-\item Find the area factor as a function of \(n\):
-$$F_{A}(n) = \frac{A_{n}}{4 \pi}$$
+\item Implement in a computer program the conversion from Cartesian coordinates \((x, y, z)\) to spherical polar coordinates \((r, \theta, \varphi)\).
+
+\item Implement in a computer program the conversion from spherical polar coordinates \((\theta, \varphi)\) to Mollweide coordinates \((X, Y)\) (here we take \(r = 1\) for the unit sphere).
+
 \end{itemize}
 
 
