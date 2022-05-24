@@ -38,6 +38,8 @@ void spherical_coordinates (struct pos A) {
   //printf("%f\n", A.norm);
   return;
 }
+void molleweide_project (struct pos A) {
+    
 
 // Adds vectors A and B
 struct pos add_vector (struct pos A, struct pos B) {
