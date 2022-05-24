@@ -3,10 +3,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+
+// A position in 3-space includes its cartesian coordinates, as well as its 2 angles and its norm
 struct pos {
     double x;
     double y;
     double z;
+    double phi;
+    double theta;
+    double norm;
 };
 
 // For our purposes, this file will only work effectively if all triangles are equilateral
@@ -17,12 +22,31 @@ struct triangle {
   struct pos center;
 };
 
+// Adds data to the "norm", "theta", and "phi" fields of a vector
+// Requires that the vector already has data for (x,y,z)
+// Some of the following functions may not be able to operate on vectors that haven't been passed through this one
+
+void spherical_coordinates (struct pos A) {
+  double trig_argument;
+  A.norm = A.x * A.x + A.y * A.y + A.z * A.z;
+  A.norm = sqrt(A.norm);
+  //printf("%f\n", A.norm);
+  trig_argument = A.y/A.x;
+  A.phi = atan(trig_argument);
+  trig_argument = A.z/A.norm;
+  A.theta = acos(trig_argument);
+  //printf("%f\n", A.norm);
+  return;
+}
+
 // Adds vectors A and B
 struct pos add_vector (struct pos A, struct pos B) {
   struct pos C;
   C.x = A.x + B.x;
   C.y = A.y + B.y;
   C.z = A.z + B.z;
+  spherical_coordinates(C);
+  printf("%f\n", C.norm);
   return C;
 }
 
@@ -32,14 +56,16 @@ struct pos scale_vector (struct pos A, double x) {
   C.x = A.x * x;
   C.y = A.y * x;
   C.z = A.z * x;
+  spherical_coordinates(C);
   return C;
 }
 
 // Scales a vector to a size of 1
 struct pos scale_norm (struct pos A) {
-  double norm = A.x * A.x + A.y * A.y + A.z * A.z;
+  double norm;
+  norm = A.x * A.x + A.y * A.y + A.z * A.z;
   norm = sqrt(norm);
-  return scale_vector (A, 1/norm);
+  return scale_vector(A, 1/norm);
 }
 
 // Given a triangle (not in the form of a struct), locates its center
@@ -51,6 +77,7 @@ struct pos tri_center (struct pos A, struct pos B, struct pos C) {
   struct pos ABC = add_vector(C, NAB);
   ABC = scale_vector(ABC, 0.3333);
   center = add_vector(AB, ABC);
+  spherical_coordinates(C);
   return center;
 };
 
@@ -177,12 +204,11 @@ int main(void) {
   *C2 = (struct pos) {0, 3, 0};
   *C3 = (struct pos) {3, 0 ,0};
 
- // list_of_triangles(*A1, *A2, *A3, 2); 
-    // should return a list of 4 triangles with the vertices (0.707,0,0.707), (0.707,0.707,0), (0,0.707,0.707), (0,0,1), (0,1,0), (1,0,0)
+ // list_of_triangles(*A1, *A2, *A3, 2); // should return a list of 4 triangles with the vertices (0.707,0,0.707), (0.707,0.707,0), (0,0.707,0.707), (0,0,1), (0,1,0), (1,0,0)
   struct pos AF = add_vector(*A1, *A2);
-  printf("%f %f %f\n", AF.x, AF.y, AF.z);
+  printf("%f %f %f %f\n", AF.x, AF.y, AF.z, AF.norm);
   struct pos AG = scale_vector(AF, 100);
-  printf("%f %f %f\n", AG.x, AG.y, AG.z);
+  printf("%f %f %f %f\n", AG.x, AG.y, AG.z, AG.norm);
   struct pos AH = scale_norm(AG);
   printf("%f %f %f\n", AH.x, AH.y, AH.z);
 
@@ -212,6 +238,4 @@ int main(void) {
   printf("%f %f %f\n", DD1.x, DD1.y, DD1.z);
   printf("%f %f %f\n", DD2.x, DD2.y, DD2.z);
   printf("%f %f %f\n", DD3.x, DD3.y, DD3.z);
-    
-  // Memory freeing may or may not be necessary if working with super computers?
 }
