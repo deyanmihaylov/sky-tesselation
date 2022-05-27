@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct pos {
+  double x;
+  double y;
+  double z;
+  double phi;
+  double theta;
+  double LAT;
+  double LON;
+};
+double newton_solve(double x1, double init, int x) {
+  double x2;
+  double top;
+  double bottom;
+  top = 2*x1+sin(2*x1)-3.141592*sin(init);
+  bottom = 2+2*cos(2*x1);
+  x2 = x1 - top/bottom;
+  double eps = fabs(x1-x2);
+  if (init == 1.570796 || init == -1.570796) {
+    return init;
+  }
+  if (eps < 0.00001) {
+    printf("%d\n", x);
+    return x2;
+  }
+  else {
+    x++;
+    //printf("%f\n", x2);
+    return newton_solve(x2, init, x);
+  }
+  
+}
+void mollweide_projection (struct pos *A) {
+  A->LAT = 0.900316 * A->phi * cos(A->theta);
+  A->LON = 1.414213 * sin(A->theta);
+  return;
+}
+int main(void) {
+  // usually takes around 3~5 iterations to converge
+
+  // Tests:
+  double x = newton_solve(0.5,0.5,0);
+  //double x = newton_solve(0.5,0.7,0);
+  //double x = newton_solve(0.6,0.6,0);
+  //double x = newton_solve(0.3,0.3,0);
+  printf("%f\n", x);
+}
